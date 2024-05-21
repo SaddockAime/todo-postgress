@@ -8,6 +8,7 @@
         "createAllTables": "npx sequelize db:migrate",
         "createAllSeeds": "npx sequelize db:seed:all",
         "deleteAllTables": "npx sequelize db:migrate:undo:all",
+        "deleteAllSeeds": "npx sequelize db:seed:undo:all",
         "start": "nodemon"
     },
     "keywords": [],

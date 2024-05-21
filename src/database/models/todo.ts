@@ -1,6 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 
-
 interface TodoAttributes {
   id: number;
   name: string;
@@ -21,8 +20,6 @@ class Todo extends Model<TodoAttributes> implements TodoAttributes {
   declare updatedAt: Date;
   declare createdAt: Date;
   
-
-
   // Define any static methods or associations here
   static associate(models: any) {
     Todo.belongsTo(models.User, { foreignKey: 'user_id' ,as: 'User' });
@@ -67,7 +64,7 @@ Todo.init(
   {
     sequelize,
     tableName: "Todos",
-    // modelName: "Todo",
+    modelName: "Todo",
     timestamps: true,
   }
 );

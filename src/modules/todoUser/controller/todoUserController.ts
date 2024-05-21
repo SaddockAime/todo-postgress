@@ -1,6 +1,12 @@
 import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { comparePassword, encryptPassword, generateToken } from '../../../helpers'
 import userRepo from '../repository/todoUserRepo'
+
+
+interface ExtendedRequest extends Request {
+    userId?: string;
+}
 
 
 // Login
@@ -24,7 +30,7 @@ export const login = async (req: express.Request, res: express.Response) => {
             });
         }
 
-        const token = generateToken(user._id);
+        const token = generateToken(user.id);
 
         return res.status(200).json({
             status: 'success',
@@ -46,13 +52,6 @@ export const signup = async (req: express.Request, res: express.Response) => {
     try {
         const { username, email, password } = req.body;
 
-        if (!username || !email || !password) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'insert user credentials',
-            });
-        }
-
         const existingUser = await userRepo.getUserByEmail(req.body.email);
         if (existingUser) {
             return res.status(404).json({
@@ -62,6 +61,7 @@ export const signup = async (req: express.Request, res: express.Response) => {
         }
 
         const hashedPassword = await encryptPassword(password);
+        req.body.password =  hashedPassword;
         const newUser = await userRepo.createUser(req.body)
         // const newUser = await createUser({
         //     username,
@@ -82,8 +82,10 @@ export const signup = async (req: express.Request, res: express.Response) => {
 };
 
 // View all users
-export const viewUsers = async (req: express.Request, res: express.Response) => {
+export const viewUsers = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     try {
+        
+        console.log(req.userId)
         const allUsers = await userRepo.getUsers();
         return res.status(200).json({
             message: 'All users retrieved successfully',

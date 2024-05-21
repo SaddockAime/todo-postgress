@@ -25,13 +25,13 @@
 
 import db from '../../../database/models/index';
 
-const { Todo,Users } = db;
+const { Todo,User } = db;
 
 const getAllTodo = async () => {
     const todo = await Todo.findAll({
         include: [
             {
-                model: Users,
+                model: User,
                 as: 'User',
                 attributes: ['id', 'username', 'email'],
             },
@@ -51,7 +51,7 @@ const createTodo = async (body: any) => {
         where: { id: todo.id },
         include: [
             {
-                model: Users,
+                model: User,
                 as: 'User',
                 attributes: ['id', 'username', 'email'],
             },
@@ -83,7 +83,7 @@ const updateTodo = async (body: any) => {
         where: { id: body.todoId },
         include: [
             {
-                model: Users,
+                model: User,
                 as: 'User',
                 attributes: ['id', 'username', 'email'],
             },
@@ -98,7 +98,7 @@ const getTodoByUserId = async (userId:any) => {
         where: { user_id: userId },
         include: [
             {
-                model: Users,
+                model: User,
                 as: 'User',
                 attributes: ['id', 'username', 'email'],  
             },
@@ -107,4 +107,4 @@ const getTodoByUserId = async (userId:any) => {
     return todo;
 }
 
-export default { getAllTodo, createTodo, deleteTodo, updateTodo,getTodoByUserId}
+export default { getAllTodo, createTodo, deleteTodo, updateTodo, getTodoByUserId}

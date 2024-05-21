@@ -60,7 +60,7 @@ User.init(
     // sequelize: sequelizeConnection,
     sequelize,
     tableName: "Users",
-    // modelName: "User",
+    modelName: "User",
     timestamps: true,
   }
 

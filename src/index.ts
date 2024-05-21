@@ -1,10 +1,9 @@
-
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import allRoutes from './routes/allRoutes';
-import db from './database/models/index';  // Import your database module
+import db from './database/models/index';
 
 const app = express();
 
@@ -29,8 +28,7 @@ const startServer = async () => {
       console.log(`Server is running on Port:${PORT}`);
     });
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error('Failed to start server:', error);
   }
 };
-
 startServer();
