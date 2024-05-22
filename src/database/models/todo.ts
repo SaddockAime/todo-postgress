@@ -11,7 +11,7 @@ interface TodoAttributes {
 }
 
 module.exports = (sequelize: Sequelize) => {
-class Todo extends Model<TodoAttributes> implements TodoAttributes {
+class Todos extends Model<TodoAttributes> implements TodoAttributes {
   declare id: number;
   declare name: string;
   declare email: string;
@@ -22,43 +22,53 @@ class Todo extends Model<TodoAttributes> implements TodoAttributes {
   
   // Define any static methods or associations here
   static associate(models: any) {
-    Todo.belongsTo(models.User, { foreignKey: 'user_id' ,as: 'User' });
+    Todos.belongsTo(models.User, { foreignKey: 'user_id' ,as: 'User' });
 }
 }
 // const sequelizeConnection = SequelizeConnection.getInstance();
 
-Todo.init(
+Todos.init(
   {
     id: {
-      field: "id",
-      primaryKey: true,
       type: DataTypes.INTEGER,
-      allowNull: false,
       autoIncrement: true,
-    },
+      primaryKey: true,
+  },
     name: {
-      field: "name",
-      type: DataTypes.STRING,
+      // field: "name",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-      field: "email",
-      type: DataTypes.STRING,
+      // field: "email",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     message: {
-      field: "message",
-      type: DataTypes.STRING,
+      // field: "message",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     user_id: {
+      // type: new DataTypes.INTEGER,
+      // allowNull: false,
       type: new DataTypes.INTEGER,
       allowNull: false,
     },
     createdAt: {
       field: "createdAt",
       type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     updatedAt: {
       field: "updatedAt",
       type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -68,7 +78,7 @@ Todo.init(
     timestamps: true,
   }
 );
-return Todo;
+return Todos;
 // Todo.sync().then();
 }
 

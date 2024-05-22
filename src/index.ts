@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import allRoutes from './routes/allRoutes';
-import db from './database/models/index';
 
 const app = express();
 
@@ -21,9 +20,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT;
 const startServer = async () => {
   try {
-    await db.sequelize.sync();
     console.log('Database synchronized');
-
     app.listen(PORT, () => {
       console.log(`Server is running on Port:${PORT}`);
     });

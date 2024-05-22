@@ -11,7 +11,7 @@ interface UsersAttributes {
 }
 
 module.exports = (sequelize: Sequelize) => {
-class User extends Model<UsersAttributes> implements UsersAttributes {
+class Users extends Model<UsersAttributes> implements UsersAttributes {
   declare id: number;
   declare username: string;
   declare email: string;
@@ -21,39 +21,49 @@ class User extends Model<UsersAttributes> implements UsersAttributes {
 
   // Define any static methods or associations here
   static associate(models: any) {
-    User.hasMany(models.Todo, { foreignKey: 'user_id' });
+    Users.hasMany(models.Todo, { foreignKey: 'user_id' });
 }
 }
 // const sequelizeConnection = SequelizeConnection.getInstance();
 
-User.init(
+Users.init(
   {
     id: {
-      field: "id",
+      // field: "id",
       primaryKey: true,
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // allowNull: false,
       autoIncrement: true,
     },
     username: {
-      field: "username",
-      type: DataTypes.STRING,
+      // field: "username",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-      field: "email",
-      type: DataTypes.STRING,
+      // field: "email",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     password: {
-      field: "password",
-      type: DataTypes.STRING,
+      // field: "password",
+      // type: DataTypes.STRING,
+      type: new DataTypes.STRING,
+      allowNull: false,
     },
     createdAt: {
       field: "createdAt",
       type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     updatedAt: {
       field: "updatedAt",
       type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -65,7 +75,7 @@ User.init(
   }
 
 );
-return User;
+return Users;
 // User.sync().then();
 }
 

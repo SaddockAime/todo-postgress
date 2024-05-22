@@ -85,7 +85,8 @@ export const signup = async (req: express.Request, res: express.Response) => {
 export const viewUsers = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     try {
         
-        console.log(req.userId)
+        // const userId = req.body.data.id
+        // console.log(userId);
         const allUsers = await userRepo.getUsers();
         return res.status(200).json({
             message: 'All users retrieved successfully',
