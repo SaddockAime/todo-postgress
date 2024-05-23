@@ -8,10 +8,10 @@ router.post("/signup", signup);
 
 router.post("/login", login);
 
-router.get("/viewusers", viewUsers);
+router.get("/viewusers", authentication, viewUsers);
 
 
-router.put('/disable/:id', disableUser);
-router.put('/enable/:id', enableUser);
+router.put('/disable/:id', authentication, disableUser);
+router.put('/enable/:id', authentication, enableUser);
 
 export default router;
