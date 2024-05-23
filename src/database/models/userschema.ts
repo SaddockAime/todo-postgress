@@ -6,6 +6,7 @@ interface UsersAttributes {
   username: string;
   email: string;
   password: string;
+  status: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +17,7 @@ class Users extends Model<UsersAttributes> implements UsersAttributes {
   declare username: string;
   declare email: string;
   declare password: string;
+  declare status: boolean;
   declare createdAt: Date;
   declare updatedAt: Date;
 
@@ -52,6 +54,11 @@ Users.init(
       // type: DataTypes.STRING,
       type: new DataTypes.STRING,
       allowNull: false,
+    },
+    status: {
+      type: new DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
     },
     createdAt: {
       field: "createdAt",

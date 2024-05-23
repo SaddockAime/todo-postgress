@@ -18,7 +18,6 @@ export const authentication = (req: ExtendedRequest, res: Response, next: NextFu
 
     const JWT_KEY: Secret | undefined = process.env.JWT_KEY || 'SECRET';
     if (!JWT_KEY) {
-        // console.log('JWT secret is not defined');
         return res.status(500).json({ error: 'JWT secret is not defined' });
     }
 
@@ -35,7 +34,5 @@ export const authentication = (req: ExtendedRequest, res: Response, next: NextFu
             // console.log(userId)
             next();
         }
-        // (req as any).userId = (decoded as any).userId;
-        // next();
     });
 };

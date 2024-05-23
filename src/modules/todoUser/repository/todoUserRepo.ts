@@ -7,8 +7,6 @@ const getUsers = async() => {
     return users;
 }
 
-
-
 const createUser = async (body: any) => {
     try {
         const user = await User.create(body);
@@ -23,4 +21,27 @@ const getUserByEmail = async(email:string) => {
     return user;
 }
 
-export default {createUser,getUsers,getUserByEmail}
+
+// Function to get single user
+const getSingleUserFx = async (id: number) => {
+  return await User.findOne({
+    where: { id }
+  });
+};
+
+// Function to update the user status
+const updateUserStatusFx = async (id: number, status: boolean) => {
+  return await User.update(
+    { status },
+    { where: { id } }
+  );
+};
+
+
+export default {
+    createUser,
+    getUsers,
+    getUserByEmail,
+    getSingleUserFx,
+    updateUserStatusFx,
+}

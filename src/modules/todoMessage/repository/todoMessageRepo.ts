@@ -82,4 +82,18 @@ const getTodoByUserId = async (userId:any) => {
     return todo;
 }
 
-export default { getAllTodo, createTodo, deleteTodo, updateTodo, getTodoByUserId}
+// Function to get single user
+const getSingleUserFx = async (id: number) => {
+    return await User.findOne({
+      where: { id }
+    });
+  };
+
+export default { 
+    getAllTodo, 
+    createTodo, 
+    deleteTodo, 
+    updateTodo, 
+    getTodoByUserId,
+    getSingleUserFx
+}

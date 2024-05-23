@@ -8,7 +8,6 @@ interface ExtendedRequest extends Request {
     userId?: string;
 }
 
-
 // Login
 export const login = async (req: express.Request, res: express.Response) => {
     try {
@@ -63,11 +62,6 @@ export const signup = async (req: express.Request, res: express.Response) => {
         const hashedPassword = await encryptPassword(password);
         req.body.password =  hashedPassword;
         const newUser = await userRepo.createUser(req.body)
-        // const newUser = await createUser({
-        //     username,
-        //     email,
-        //     password: hashedPassword,
-        // });
 
         return res.status(200).json({
             status: 'success',
@@ -85,8 +79,6 @@ export const signup = async (req: express.Request, res: express.Response) => {
 export const viewUsers = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     try {
         
-        // const userId = req.body.data.id
-        // console.log(userId);
         const allUsers = await userRepo.getUsers();
         return res.status(200).json({
             message: 'All users retrieved successfully',
@@ -98,6 +90,50 @@ export const viewUsers = async (req: ExtendedRequest, res: Response, next: NextF
             code: error.code,
         });
     }
+};
+
+export const disableUser = async (req: Request, res: Response): Promise<void> => {
+  const id = req.params.id;
+
+  try {
+    const user = await userRepo.getSingleUserFx(Number(id));
+    if (!user) {
+      res.status(404).json({ success: false, message: "User doesn't exist." });
+    }
+    await userRepo.updateUserStatusFx(Number(id), false);
+    res.status(200).json({
+      success: true,
+      message: "User account disabled successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while disabling the user account."
+    });
+  }
+};
+
+export const enableUser = async (req: Request, res: Response): Promise<void> => {
+  const id = req.params.id;
+
+  try {
+    const user = await userRepo.getSingleUserFx(Number(id));
+    if (!user) {
+      res.status(404).json({ success: false, message: "User doesn't exist." });
+    }
+    await userRepo.updateUserStatusFx(Number(id), true);
+    res.status(200).json({
+      success: true,
+      message: "User account enabled successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while enabling the user account."
+    });
+  }
 };
 
 

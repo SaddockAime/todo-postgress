@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import express from 'express';
 import todoRepo from '../repository/todoMessageRepo'
+import userRepo from '../repository/todoMessageRepo'
 
 interface ExtendedRequest extends Request {
     userId?: string;
@@ -14,11 +15,35 @@ export const createMessage = async (req:ExtendedRequest, res: express.Response):
         const email = req.body.email;
         const message = req.body.message;
 
-            const newMessage = await todoRepo.createTodo({userId, name, email, message})
-            res.status(200).json({
-                message: "Message Sent",
-                data: newMessage
-            })
+        if (!userId) {
+            res.status(400).json({
+                message: "User ID is required"
+            });
+            return; // Ensure function execution stops here
+        }
+
+        // Get the user by ID
+        const user = await userRepo.getSingleUserFx(Number(userId));
+        if (!user) {
+            res.status(404).json({
+                message: "User not found"
+            });
+            return; // Ensure function execution stops here
+        }
+
+        // Check if the user is disabled
+        if (!user.status) {
+            res.status(403).json({
+                message: "User account is disabled"
+            });
+            return; // Ensure function execution stops here
+        }
+
+        const newMessage = await todoRepo.createTodo({userId, name, email, message})
+        res.status(200).json({
+            message: "Message Sent",
+            data: newMessage
+        })
     } catch(error: any) {
         res.status(500).json({
             message: error.message,
